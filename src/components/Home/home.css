@@ -1,0 +1,27 @@
+.background_home{
+  /* background: linear-gradient(to bottom, rgb(104, 194, 236), #42a5f5, #64b5f6); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #2196F3;
+  color: #ffffff;
+  height: 100vh;
+}
+.text_temp_home{
+  font-size: 230px;
+}
+.text_lasttemp_home{
+  font-size: 25px;
+}
+.margin_top_home{
+  margin-top: 5%;
+}
+.margin_topdate_home{
+  margin-top: 7%;
+}
+.porcent_batery_home{
+  background: #00e676;
+  border-radius: 10px;
+  font-size: 20px;
+}
+.card_color_home{
+  background: #03A9F4;
+  color: white
+}
