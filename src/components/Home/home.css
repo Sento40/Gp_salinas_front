@@ -7,6 +7,9 @@
 .text_temp_home{
   font-size: 230px;
 }
+.text_temp_home_mobile{
+  font-size: 70px;
+}
 .text_lasttemp_home{
   font-size: 25px;
 }

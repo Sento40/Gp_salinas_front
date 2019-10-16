@@ -8,8 +8,7 @@ export default () => {
     data: {
       query: `
         query{
-          lastestMessage{
-            _id
+          lastestMessages{
             device
             timestamp
             data

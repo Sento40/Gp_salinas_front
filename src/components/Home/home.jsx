@@ -18,70 +18,205 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      sigfox: "45778A"
+      sigfox: "459768",
+      temp_class: "",
+      id_class: "",
+      batery_marg: "",
+      temp2: "Cargando...",
+      temp3: "Cargando..."
      }
   }
 
   componentDidMount = () => {
+    console.log(window.screen.availWidth);
+    if(window.screen.availWidth <= 500) {
+      this.setState({
+        temp_class: "text_temp_home_mobile",
+        mobile: true,
+        id_class: "display-4",
+        batery_marg: "mt-3"
+      });
+    }else{
+      this.setState({
+        temp_class: "text_temp_home",
+        mobile: false,
+        id_class: "display-3",
+        batery_marg: "mt-5"
+      });
+    }
+
     lastestMessages().then((result) => {
-      console.log(result);
+      //console.log(result);
+      let temps = result.data.data.lastestMessages
+      if(temps[0] && temps[1] && temps[2]){
+        let grados = temps[0].data.substring(1,3)
+        let grados2 = temps[0].data.substring(3,4)
+        let gradosTemp = temps[1].data.substring(1,3)
+        let gradosTemp2 = temps[1].data.substring(3,4)
+        let gradosT1 = temps[2].data.substring(1,3)
+        let gradosT2 = temps[2].data.substring(3,4)
+        this.setState({
+          temp1: `${grados}.${grados2}º`,
+          date1: temps[0].timestamp,
+          temp2: `${gradosTemp}.${gradosTemp2}º`,
+          date2: temps[1].timestamp,
+          temp3: `${gradosT1}.${gradosT2}º`,
+          date3: temps[2].timestamp
+        });
+      }else{
+        if(temps[0] && temps[1]){
+          let grados = temps[0].data.substring(1,3)
+          let grados2 = temps[0].data.substring(3,4)
+          let gradosTemp = temps[1].data.substring(1,3)
+          let gradosTemp2 = temps[1].data.substring(3,4)
+          this.setState({
+            temp1: `${grados}.${grados2}º`,
+            date1: temps[0].timestamp,
+            temp2: `${gradosTemp}.${gradosTemp2}º`,
+            date2: temps[1].timestamp,
+            temp3: "Sin Datos",
+            date3: "Sin Datos"
+          });
+        } else { 
+          if(temps[0]){
+            let grados = temps[0].data.substring(1,3)
+            let grados2 = temps[0].data.substring(3,4)
+            this.setState({
+              temp1: `${grados}.${grados2}º`,
+              date1: temps[0].timestamp,
+              temp2: "Sin Datos",
+              date2: "Sin Datos",
+              temp3: "Sin Datos",
+              date3: "Sin Datos"
+            });
+          }
+        }
+      }
     }).catch((err) => {
       console.log(err, "error");
     });
   }
 
-  render() { 
-    return ( 
-      <div className="container-fluid background_home">
-        <div className="row justify-content-center">
-          <div className="col-md-4 margin_topdate_home">
-            <div className="col-md-12">
-              <h1 className="display-3">ID: 45778A</h1>
-            </div>
-            <div className="col-md-12">
-              <h2>Fecha: 15/10/2019</h2>
-              <h2>Hora: 10:00am</h2>
-            </div>
+  renderLastTempDate = () => {
+    let fecha = ""
+    let hora = ""
+    if(this.state.date1){
+      fecha = new Date(this.state.date1).toLocaleDateString()
+      hora = new Date(this.state.date1).toLocaleTimeString()
+    }
+    if(this.state.mobile){
+      return(
+        <div className="col-md-12 col-sm-12">
+          <h3>Fecha: {fecha}</h3>
+          <h3>Hora: {hora}</h3>
+        </div>
+      )
+    }else{
+      return(
+        <div className="col-md-12 col-sm-12">
+          <h2>Fecha: {fecha}</h2>
+          <h2>Hora: {hora}</h2>
+        </div>
+      )
+    }
+  }
+
+  renderMobile = () => {
+    let fecha1 = ""
+    let hora1 = ""
+    let fecha2 = ""
+    let hora2 = ""
+    if(this.state.date2){
+      fecha1 = new Date(this.state.date2).toLocaleDateString()
+      hora1 = new Date(this.state.date2).toLocaleTimeString()
+    }
+    if(this.state.date3){
+      fecha2 = new Date(this.state.date3).toLocaleDateString()
+      hora2 = new Date(this.state.date3).toLocaleTimeString()
+    }
+    if(this.state.mobile){
+      return(
+        <div className="col-md-9 col-sm-9 mt-4">
+          <div className="row justify-content-center">
+            <div className="text-center"><h4>Últimas Temperaturas: </h4></div>
+            {/* <div className="col-md-4 col-sm-4"> */}
+              <div className="col-md-12 col-sm-12 text-center">
+                <div className="card card_color_home">
+                  <div className="card-body text-center">
+                    <h1 className="text_lasttemp_home">{this.state.temp2}</h1>
+                    <h5 className="mt-4">{fecha1} {hora1}</h5>
+                  </div>
+                </div>
+              </div>
+            {/* </div> */}
+            {/* <div className="col-md-4 col-sm-4 mt-3"> */}
+              <div className="col-md-12 col-sm-12 text-center">
+                <div className="card mt-3 card_color_home">
+                  <div className="card-body text-center">
+                    <h1 className="text_lasttemp_home">{this.state.temp3}</h1>
+                    <h5 className="mt-4">{fecha2} {hora2}</h5>
+                  </div>
+                </div>
+              </div>
+            {/* </div> */}
           </div>
-          <div className="col-md-6 margin_top_home">
-            <div className="card card_color_home">
-              <div className="card-body text-center">
-                <h1 className="text_temp_home">27.9º</h1>
+        </div>
+      )
+    }else{
+      return(
+        <div className="col-md-9 col-sm-9">
+          <div className="row justify-content-center">
+            <div className="col-md-2 col-sm-2 text-center"><h4>Últimas Temperaturas: </h4><br/><h5>Hora: </h5></div>
+            <div className="col-md-4 col-sm-4">
+              <div className="col-md-10 col-sm-10 text-center">
+                <div className="card mr-2 card_color_home">
+                  <div className="card-body text-center">
+                    <h1 className="text_lasttemp_home">{this.state.temp2}</h1>
+                  </div>
+                </div>
+                <h5 className="mt-4">{fecha1} {hora1}</h5>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-4">
+              <div className="col-md-10 col-sm-10 text-center">
+                <div className="card ml-2 card_color_home">
+                  <div className="card-body text-center">
+                    <h1 className="text_lasttemp_home">{this.state.temp3}</h1>
+                  </div>
+                </div>
+                <h5 className="mt-4">{fecha2} {hora2}</h5>
               </div>
             </div>
           </div>
         </div>
-        <div className="row justify-content-center mt-5">
-          <div className="col-md-3">
+      )
+    }
+  }
+  render() { 
+    return ( 
+      <div className="container-fluid background_home">
+        <div className="row justify-content-center">
+          <div className="col-md-4 col-sm-4 margin_topdate_home">
+            <div className="col-md-12 col-sm-12">
+              <h1 className={this.state.id_class}>ID: 459768</h1>
+            </div>
+            {this.renderLastTempDate()}
+          </div>
+          <div className="col-md-6 col-sm-6 margin_top_home">
+            <div className="card card_color_home">
+              <div className="card-body text-center">
+                <h1 className={this.state.temp_class}>{this.state.temp1}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={`row justify-content-center ${this.state.batery_marg}`}>
+          <div className="col-md-3 col-sm-3">
             <div className="row justify-content-center">
               <h4 className="mr-2 mt-2">Nivel de Bateria: </h4><span className="ml-2 btn porcent_batery_home">97%</span>
             </div>
           </div>
-          <div className="col-md-9">
-            <div className="row justify-content-center">
-              <div className="col-md-2 text-center"><h4>Últimas Temperaturas: </h4><br/><h5>Hora: </h5></div>
-              <div className="col-md-4">
-                <div className="col-md-10 text-center">
-                  <div className="card mr-2 card_color_home">
-                    <div className="card-body text-center">
-                      <h1 className="text_lasttemp_home">26.2</h1>
-                    </div>
-                  </div>
-                  <h5 className="mt-4">09:40</h5>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="col-md-10 text-center">
-                  <div className="card ml-2 card_color_home">
-                    <div className="card-body text-center">
-                      <h1 className="text_lasttemp_home">29.1</h1>
-                    </div>
-                  </div>
-                  <h5 className="mt-4">09:30</h5>
-                </div>
-              </div>
-            </div>
-          </div>
+          {this.renderMobile()}
         </div>
       </div>
      );
