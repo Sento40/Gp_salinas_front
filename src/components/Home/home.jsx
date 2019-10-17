@@ -4,9 +4,9 @@ import lastestMessages from '../../services/Queries/lastestMessages';
 import gql from 'graphql-tag';
 import {Subscription} from 'react-apollo';
 
-const NEW_TEMPS = gql`
+const NEW_TEMPS_ADDED = gql`
 subscription{
-  addMessage{
+  newMessageAdded{
     device
     timestamp
     data
@@ -218,6 +218,36 @@ class Home extends Component {
           </div>
           {this.renderMobile()}
         </div>
+        <Subscription 
+          subscription={NEW_TEMPS_ADDED}
+        >
+        {
+          ({data, loading}) => {
+            if(loading) return <React.Fragment></React.Fragment>
+            console.log(data);
+            const device = data.newMessageAdded.device
+            const time = data.newMessageAdded.timestamp
+            const temp = data.newMessageAdded.data
+            let temp2 = this.state.temp1
+            let date2 = this.state.date1
+            let temp3 = this.state.temp2
+            let date3 = this.state.date2
+            if(device === "459768" && time !== this.state.lastTime){
+              let temperature = `${temp.substring(1,3)}.${temp.substring(3,4)}º`
+              this.setState({
+                temp1: temperature,
+                date1: time,
+                temp2,
+                date2,
+                temp3,
+                date3,
+                lastTime: time
+              });
+            }
+            return <React.Fragment></React.Fragment>
+          }
+        }
+        </Subscription>
       </div>
      );
   }
