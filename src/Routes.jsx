@@ -18,7 +18,7 @@ class Routes extends Component {
       <Router>
         <main>
           <ApolloProvider client={client}>
-            <Route exact path = "/" component={Home} />
+            <Route exact path = "/:dev/" component={Home} />
           </ApolloProvider>
         </main>
       </Router>

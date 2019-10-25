@@ -18,7 +18,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      sigfox: "45776B",
+      sigfox: this.props.match.params.dev,
       temp_class: "",
       id_class: "",
       batery_marg: "",
@@ -28,7 +28,7 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    console.log(window.screen.availWidth);
+    //console.log(window.screen.availWidth);
     if(window.screen.availWidth <= 500) {
       this.setState({
         temp_class: "text_temp_home_mobile",
@@ -44,8 +44,8 @@ class Home extends Component {
         batery_marg: "mt-5"
       });
     }
-
-    lastestMessages().then((result) => {
+    let dev = {dev: this.state.sigfox}
+    lastestMessages(dev).then((result) => {
       //console.log(result);
       let temps = result.data.data.lastestMessages
       if(temps[0] && temps[1] && temps[2]){
@@ -198,7 +198,7 @@ class Home extends Component {
         <div className="row justify-content-center">
           <div className="col-md-4 col-sm-4 margin_topdate_home">
             <div className="col-md-12 col-sm-12">
-              <h1 className={this.state.id_class}>ID: 45776B</h1>
+              <h1 className={this.state.id_class}>ID: {this.state.sigfox}</h1>
             </div>
             {this.renderLastTempDate()}
           </div>
@@ -232,7 +232,7 @@ class Home extends Component {
               let date2 = this.state.date1
               let temp3 = this.state.temp2
               let date3 = this.state.date2
-              if(device === "45776B" && time !== this.state.lastTime){
+              if(device === this.state.sigfox && time !== this.state.lastTime){
                 let temperature = `${temp.substring(1,3)}.${temp.substring(3,4)}º`
                 this.setState({
                   temp1: temperature,
