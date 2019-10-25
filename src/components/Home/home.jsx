@@ -18,7 +18,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      sigfox: "459768",
+      sigfox: "45776B",
       temp_class: "",
       id_class: "",
       batery_marg: "",
@@ -198,7 +198,7 @@ class Home extends Component {
         <div className="row justify-content-center">
           <div className="col-md-4 col-sm-4 margin_topdate_home">
             <div className="col-md-12 col-sm-12">
-              <h1 className={this.state.id_class}>ID: 459768</h1>
+              <h1 className={this.state.id_class}>ID: 45776B</h1>
             </div>
             {this.renderLastTempDate()}
           </div>
@@ -221,32 +221,32 @@ class Home extends Component {
         <Subscription 
           subscription={NEW_TEMPS_ADDED}
         >
-        {
-          ({data, loading}) => {
-            if(loading) return <React.Fragment></React.Fragment>
-            console.log(data);
-            const device = data.newMessageAdded.device
-            const time = data.newMessageAdded.timestamp
-            const temp = data.newMessageAdded.data
-            let temp2 = this.state.temp1
-            let date2 = this.state.date1
-            let temp3 = this.state.temp2
-            let date3 = this.state.date2
-            if(device === "459768" && time !== this.state.lastTime){
-              let temperature = `${temp.substring(1,3)}.${temp.substring(3,4)}º`
-              this.setState({
-                temp1: temperature,
-                date1: time,
-                temp2,
-                date2,
-                temp3,
-                date3,
-                lastTime: time
-              });
+          {
+            ({data, loading}) => {
+              if(loading) return <React.Fragment></React.Fragment>
+              console.log(data);
+              const device = data.newMessageAdded.device
+              const time = data.newMessageAdded.timestamp
+              const temp = data.newMessageAdded.data
+              let temp2 = this.state.temp1
+              let date2 = this.state.date1
+              let temp3 = this.state.temp2
+              let date3 = this.state.date2
+              if(device === "45776B" && time !== this.state.lastTime){
+                let temperature = `${temp.substring(1,3)}.${temp.substring(3,4)}º`
+                this.setState({
+                  temp1: temperature,
+                  date1: time,
+                  temp2,
+                  date2,
+                  temp3,
+                  date3,
+                  lastTime: time
+                });
+              }
+              return <React.Fragment></React.Fragment>
             }
-            return <React.Fragment></React.Fragment>
           }
-        }
         </Subscription>
       </div>
      );
