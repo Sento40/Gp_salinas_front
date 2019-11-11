@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './home.css'
 import lastestMessages from '../../services/Queries/lastestMessages';
 import gql from 'graphql-tag';
 import {Subscription} from 'react-apollo';
+import { Link } from 'react-router-dom';
+import { OpenWeatherMap } from 'react-weather';
+import ReactWeather from 'react-open-weather';
+//Optional include of the default css styles
+import 'react-open-weather/lib/css/ReactWeather.css';
 
 const NEW_TEMPS_ADDED = gql`
 subscription{
@@ -200,7 +206,8 @@ class Home extends Component {
             <div className="col-md-12 col-sm-12">
               <h1 className={this.state.id_class}>ID: {this.state.sigfox}</h1>
             </div>
-            {this.renderLastTempDate()}
+            {this.renderLastTempDate()}<br />
+            <Link className="btn btn-light text-primary btn-block" to={`/records/${this.state.sigfox}`}>Descargar Historial</Link>
           </div>
           <div className="col-md-6 col-sm-6 margin_top_home">
             <div className="card card_color_home">
@@ -216,7 +223,21 @@ class Home extends Component {
               <h4 className="mr-2 mt-2">Nivel de Bateria: </h4><span className="ml-2 btn porcent_batery_home">97%</span>
             </div>
           </div>
-          {this.renderMobile()}
+          {/* {this.renderMobile()} */}
+          {/* <ReactWeather
+            forecast="today"
+            apikey="api.openweathermap.org/data/2.5/forecast?id=524901&APPID=42329e5afc8f646ceef98c4a33d7f184"
+            type="city"
+            city="Mexico City"
+          /> */}
+          {/* <ReactWeather
+            forecast="today"
+            unit="imperial"
+            apikey="42329e5afc8f646ceef98c4a33d7f184"
+            type="city"
+            city="Mexico City"
+            lang="es"
+          /> */}
         </div>
         <Subscription 
           subscription={NEW_TEMPS_ADDED}

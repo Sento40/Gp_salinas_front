@@ -1,0 +1,17 @@
+.card_back_dash{
+  background: #64b5f6;
+  border-color: #1e88e5;
+  color: #000000;
+}
+.card_back_dash:hover{
+  background: #64b5f6;
+  border-color: #1e88e5;
+  color: #000000;
+  zoom: 105%;
+}
+.img_wnd{
+  width: 90%;
+}
+.img_sento{
+  border-radius: 60px;
+}

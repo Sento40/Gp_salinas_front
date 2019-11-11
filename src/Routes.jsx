@@ -6,6 +6,8 @@ import {
 import {ApolloProvider} from 'react-apollo';
 import client from './client';
 import Home from './components/Home/home';
+import Records from './components/Records/records';
+import Dashboard from './components/Dashboard/dashboard';
 
 class Routes extends Component {
   render() {
@@ -18,7 +20,9 @@ class Routes extends Component {
       <Router>
         <main>
           <ApolloProvider client={client}>
+            <Route exact path = "/" component={Dashboard} />
             <Route exact path = "/:dev/" component={Home} />
+            <Route exact path = "/records/:dev/" component={Records} />
           </ApolloProvider>
         </main>
       </Router>
