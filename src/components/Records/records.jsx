@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import { Customers } from './table_records';
 import { ExportCSV } from './to_csv';
@@ -16,6 +17,13 @@ class Records extends PureComponent {
   }
 
   componentDidMount = () => {
+
+    if(window.screen.availWidth <= 500) {
+      this.setState({ mobile: true });
+    }else{
+      this.setState({ mobile: false });
+    }
+
     deviceMessages(this.state.sigfox).then((result) => {
       // console.log(result.data.data.deviceMessages);
       let data = result.data.data.deviceMessages
@@ -195,21 +203,23 @@ class Records extends PureComponent {
           <h1 className="mt-5">Dispositivo: {this.state.sigfox}</h1>
         </div>
         <div className="row justify-content-center mt-5">
-          <div className="col-md-2">
-            <div className="dropdown">
-              <button className="btn btn-light text-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {this.state.filter}
-              </button>
-              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 1)}>Hoy</li>
-                <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 2)}>Semana</li>
-                <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 3)}>Mes</li>
-                <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 4)}>Año</li>
+          <div className="form-inline">
+            <div className="form-group mr-2">
+              <div className="dropdown">
+                <button className="btn btn-light text-primary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {this.state.filter}
+                </button>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 1)}>Hoy</li>
+                  <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 2)}>Semana</li>
+                  <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 3)}>Mes</li>
+                  <li className="dropdown-item text-primary" onClick={(e) => this.setFilter(e, 4)}>Año</li>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-3">
-            <ExportCSV csvData={this.state.customers} fileName={`${this.state.sigfox}-${this.state.filter}-${this.state.datenow}`} />
+            <div className="form-group ml-2">
+              <ExportCSV csvData={this.state.customers} fileName={`${this.state.sigfox}-${this.state.filter}-${this.state.datenow}`} phone={this.state.mobile} />
+            </div>
           </div>
         </div>
         <div className="row justify-content-center mt-5">

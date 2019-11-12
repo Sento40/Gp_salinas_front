@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import './home.css'
 import lastestMessages from '../../services/Queries/lastestMessages';
 import gql from 'graphql-tag';
 import {Subscription} from 'react-apollo';
 import { Link } from 'react-router-dom';
-import { OpenWeatherMap } from 'react-weather';
-import ReactWeather from 'react-open-weather';
+// import { OpenWeatherMap } from 'react-weather';
+// import ReactWeather from 'react-open-weather';
 //Optional include of the default css styles
 import 'react-open-weather/lib/css/ReactWeather.css';
 
@@ -40,14 +40,16 @@ class Home extends Component {
         temp_class: "text_temp_home_mobile",
         mobile: true,
         id_class: "display-4",
-        batery_marg: "mt-3"
+        batery_marg: "mt-3",
+        background: "background_home_phone"
       });
     }else{
       this.setState({
         temp_class: "text_temp_home",
         mobile: false,
         id_class: "display-3",
-        batery_marg: "mt-5"
+        batery_marg: "mt-5",
+        background: "background_home"
       });
     }
     let dev = {dev: this.state.sigfox}
@@ -200,7 +202,7 @@ class Home extends Component {
   }
   render() { 
     return ( 
-      <div className="container-fluid background_home">
+      <div className={`container-fluid ${this.state.background}`}>
         <div className="row justify-content-center">
           <div className="col-md-4 col-sm-4 margin_topdate_home">
             <div className="col-md-12 col-sm-12">
@@ -223,7 +225,7 @@ class Home extends Component {
               <h4 className="mr-2 mt-2">Nivel de Bateria: </h4><span className="ml-2 btn porcent_batery_home">97%</span>
             </div>
           </div>
-          {/* {this.renderMobile()} */}
+          {this.renderMobile()}
           {/* <ReactWeather
             forecast="today"
             apikey="api.openweathermap.org/data/2.5/forecast?id=524901&APPID=42329e5afc8f646ceef98c4a33d7f184"

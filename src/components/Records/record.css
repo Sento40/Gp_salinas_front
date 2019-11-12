@@ -2,6 +2,7 @@
   /* background: linear-gradient(to bottom, rgb(104, 194, 236), #42a5f5, #64b5f6); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background: #2196F3;
   color: #ffffff;
+  min-height: 100vh;
 }
 .background_table{
   /* background: linear-gradient(to bottom, rgb(104, 194, 236), #42a5f5, #64b5f6); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
